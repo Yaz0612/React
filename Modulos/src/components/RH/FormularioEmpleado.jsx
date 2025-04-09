@@ -4,35 +4,13 @@ import Navbar from "../Navbar/Navbar";
 import CustomAlert from "../Alertas/CustomAlert";
 import { Camera } from "react-bootstrap-icons";
 import { useNavigate } from "react-router-dom";
+import { sanitizeInput } from "../../utils/sanitize";
 
 const MICROSERVICE_URL = import.meta.env.VITE_MICROSERVICE_URL;
 
 const FormularioEmpleado = () => {
   const [activeTab, setActiveTab] = useState("personales");
-  const [formData, setFormData] = useState({
-    nombre: "",
-    apellido_paterno: "",
-    apellido_materno: "",
-    fecha_nacimiento: "",
-    sexo: "",
-    estado_civil: "",
-    direccion: "",
-    telefono: "",
-    curp: "",
-    correo: "",
-    rfc: "",
-    nss: "",
-    foto: "",
-    fecha_ingreso: "",
-    tipo_contrato: "",
-    puesto: "",
-    departamento: "",
-    sucursal: "",
-    turno: "",
-    salario: "",
-    usuario: 1,
-  });
-
+  const [formData, setFormData] = useState({nombre: "",apellido_paterno: "",apellido_materno: "",fecha_nacimiento: "",sexo: "",estado_civil: "",direccion: "",telefono: "",curp: "",correo: "",rfc: "",nss: "",foto: "",fecha_ingreso: "",tipo_contrato: "",puesto: "",departamento: "",sucursal: "",turno: "",salario: "",usuario: 1,});
   const [puestos, setPuestos] = useState([]);
   const [puestosFiltrados, setPuestosFiltrados] = useState([]);
   const [departamentos, setDepartamentos] = useState([]);
@@ -59,11 +37,7 @@ const FormularioEmpleado = () => {
     nss: "",
     telefono: "",
   });
-  const tiposPermitidos = [
-    "application/pdf",
-    "application/msword", // .doc
-    "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // .docx
-  ];
+
   const [errorArchivo, setErrorArchivo] = useState("");
 
   const inputFotoRef = React.useRef(null);
@@ -154,18 +128,29 @@ const FormularioEmpleado = () => {
 
   const handleGuardar = async () => {
     try {
-      const dataToSend = {
-        ...formData,
-        sexo: parseInt(formData.sexo),
-        estado_civil: parseInt(formData.estado_civil),
-        tipo_contrato: parseInt(formData.tipo_contrato),
-        puesto: parseInt(formData.puesto),
-        departamento: parseInt(formData.departamento),
-        sucursal: parseInt(formData.sucursal),
-        turno: parseInt(formData.turno),
-        salario: parseFloat(formData.salario),
-      };
-      console.log(" JSON FINAL ENVIADO:", JSON.stringify(dataToSend, null, 2));
+        const dataToSend = {
+          nombre: sanitizeInput(formData.nombre),
+          apellido_paterno: sanitizeInput(formData.apellido_paterno),
+          apellido_materno: sanitizeInput(formData.apellido_materno),
+          fecha_nacimiento: formData.fecha_nacimiento,
+          sexo: parseInt(formData.sexo),
+          estado_civil: parseInt(formData.estado_civil),
+          direccion: sanitizeInput(formData.direccion),
+          telefono: sanitizeInput(formData.telefono),
+          curp: sanitizeInput(formData.curp),
+          correo: sanitizeInput(formData.correo),
+          rfc: sanitizeInput(formData.rfc),
+          nss: sanitizeInput(formData.nss),
+          foto: sanitizeInput(formData.foto),
+          fecha_ingreso: formData.fecha_ingreso,
+          tipo_contrato: parseInt(formData.tipo_contrato),
+          puesto: parseInt(formData.puesto),
+          departamento: parseInt(formData.departamento),
+          sucursal: parseInt(formData.sucursal),
+          turno: parseInt(formData.turno),
+          salario: parseFloat(formData.salario),
+          usuario: formData.usuario,
+        };     
       const res = await fetch(
         import.meta.env.VITE_MICROSERVICE_URL + "/empleados",
         {
@@ -505,7 +490,10 @@ const FormularioEmpleado = () => {
                 <div className="botones">
                   <button
                     className="form-btn form-btn-cancelar"
-                    onClick={() => (window.location.href = "/recursos-humanos")}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigate("/recursos-humanos");
+                    }}                    
                   >
                     Cancelar
                   </button>

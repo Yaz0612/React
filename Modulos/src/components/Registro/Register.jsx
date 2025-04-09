@@ -31,17 +31,26 @@ function Register() {
     const sanitizedName = sanitizeInput(name.trim());
     const sanitizedEmail = sanitizeInput(email.trim());
     const sanitizedPassword = sanitizeInput(password.trim());
+    const sanitizedConfirmPassword = sanitizeInput(confirmPassword.trim());
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(sanitizedEmail)) {
+      setModalType("error");
+      setModalTitle("Error");
+      setModalMessage("El correo electrónico no es válido.");
+      setShowModal(true);
+      return;
+    }
 
     if (sanitizedPassword.length < 6) {
       setPasswordError("La contraseña debe tener al menos 6 caracteres.");
       return;
     }
 
-    if (sanitizedPassword !== confirmPassword.trim()) {
+    if (sanitizedPassword !== sanitizedConfirmPassword) {
       setPasswordError("Las contraseñas no coinciden.");
       return;
     }
-
     try {
       await axios.post(`${API_URL}register`, {
         nombre: sanitizedName,
@@ -60,8 +69,6 @@ function Register() {
       setPassword("");
       setConfirmPassword("");
     } catch (err) {
-      console.error("Error al registrar:", err);
-
       let message = "Ha ocurrido un error al registrarte.";
       if (err.response) {
         message = err.response.data?.message || "Correo ya registrado.";
