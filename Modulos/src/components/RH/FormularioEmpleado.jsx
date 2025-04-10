@@ -10,7 +10,29 @@ const MICROSERVICE_URL = import.meta.env.VITE_MICROSERVICE_URL;
 
 const FormularioEmpleado = () => {
   const [activeTab, setActiveTab] = useState("personales");
-  const [formData, setFormData] = useState({nombre: "",apellido_paterno: "",apellido_materno: "",fecha_nacimiento: "",sexo: "",estado_civil: "",direccion: "",telefono: "",curp: "",correo: "",rfc: "",nss: "",foto: "",fecha_ingreso: "",tipo_contrato: "",puesto: "",departamento: "",sucursal: "",turno: "",salario: "",usuario: 1,});
+  const [formData, setFormData] = useState({
+    nombre: "",
+    apellido_paterno: "",
+    apellido_materno: "",
+    fecha_nacimiento: "",
+    sexo: "",
+    estado_civil: "",
+    direccion: "",
+    telefono: "",
+    curp: "",
+    correo: "",
+    rfc: "",
+    nss: "",
+    foto: "",
+    fecha_ingreso: "",
+    tipo_contrato: "",
+    puesto: "",
+    departamento: "",
+    sucursal: "",
+    turno: "",
+    salario: "",
+    usuario: 1,
+  });
   const [puestos, setPuestos] = useState([]);
   const [puestosFiltrados, setPuestosFiltrados] = useState([]);
   const [departamentos, setDepartamentos] = useState([]);
@@ -128,29 +150,30 @@ const FormularioEmpleado = () => {
 
   const handleGuardar = async () => {
     try {
-        const dataToSend = {
-          nombre: sanitizeInput(formData.nombre),
-          apellido_paterno: sanitizeInput(formData.apellido_paterno),
-          apellido_materno: sanitizeInput(formData.apellido_materno),
-          fecha_nacimiento: formData.fecha_nacimiento,
-          sexo: parseInt(formData.sexo),
-          estado_civil: parseInt(formData.estado_civil),
-          direccion: sanitizeInput(formData.direccion),
-          telefono: sanitizeInput(formData.telefono),
-          curp: sanitizeInput(formData.curp),
-          correo: sanitizeInput(formData.correo),
-          rfc: sanitizeInput(formData.rfc),
-          nss: sanitizeInput(formData.nss),
-          foto: sanitizeInput(formData.foto),
-          fecha_ingreso: formData.fecha_ingreso,
-          tipo_contrato: parseInt(formData.tipo_contrato),
-          puesto: parseInt(formData.puesto),
-          departamento: parseInt(formData.departamento),
-          sucursal: parseInt(formData.sucursal),
-          turno: parseInt(formData.turno),
-          salario: parseFloat(formData.salario),
-          usuario: formData.usuario,
-        };     
+      const dataToSend = {
+        nombre: sanitizeInput(formData.nombre),
+        apellido_paterno: sanitizeInput(formData.apellido_paterno),
+        apellido_materno: sanitizeInput(formData.apellido_materno),
+        fecha_nacimiento: formData.fecha_nacimiento,
+        sexo: parseInt(formData.sexo),
+        estado_civil: parseInt(formData.estado_civil),
+        direccion: sanitizeInput(formData.direccion),
+        telefono: sanitizeInput(formData.telefono),
+        curp: sanitizeInput(formData.curp),
+        correo: sanitizeInput(formData.correo),
+        rfc: sanitizeInput(formData.rfc),
+        nss: sanitizeInput(formData.nss),
+        foto: sanitizeInput(formData.foto),
+        fecha_ingreso: formData.fecha_ingreso,
+        tipo_contrato: parseInt(formData.tipo_contrato),
+        puesto: parseInt(formData.puesto),
+        departamento: parseInt(formData.departamento),
+        sucursal: parseInt(formData.sucursal),
+        turno: parseInt(formData.turno),
+        salario: parseFloat(formData.salario),
+        usuario: formData.usuario,
+      };
+      console.log(" JSON FINAL ENVIADO:", JSON.stringify(dataToSend, null, 2));
       const res = await fetch(
         import.meta.env.VITE_MICROSERVICE_URL + "/empleados",
         {
@@ -410,7 +433,16 @@ const FormularioEmpleado = () => {
                 </div>
 
                 <div className="foto-empleado">
-                  <div className="foto-box" onClick={handleFotoClick}>
+                  <div
+                    className="foto-box"
+                    onClick={handleFotoClick}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") handleFotoClick();
+                    }}
+                    role="button"
+                    tabIndex="0"
+                    aria-label="Hacer clic para cambiar la foto del empleado"
+                  >
                     {previewFoto ? (
                       <img
                         src={previewFoto}
@@ -457,7 +489,7 @@ const FormularioEmpleado = () => {
 
                         const reader = new FileReader();
                         reader.onloadend = () => {
-                          setPreviewFoto(reader.result); 
+                          setPreviewFoto(reader.result);
 
                           //  Generar nombre único
                           const extension = file.name.split(".").pop();
@@ -493,7 +525,7 @@ const FormularioEmpleado = () => {
                     onClick={(e) => {
                       e.preventDefault();
                       navigate("/recursos-humanos");
-                    }}                    
+                    }}
                   >
                     Cancelar
                   </button>
@@ -748,7 +780,7 @@ const FormularioEmpleado = () => {
           title={modalTitle}
           message={modalMessage}
           onConfirm={closeModal}
-          onCancel={() => setShowModal(false)} 
+          onCancel={() => setShowModal(false)}
         />
       )}
     </div>
