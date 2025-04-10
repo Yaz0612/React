@@ -149,9 +149,15 @@ function Register() {
               <i
                 className={`bi ${showPassword ? "bi-eye-slash" : "bi-eye"}`}
                 onClick={() => setShowPassword(!showPassword)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    setShowPassword(!showPassword);
+                  }
+                }}
                 role="button"
+                tabIndex="0"
                 aria-label="Mostrar u ocultar contraseña"
-              ></i>
+              />
             </div>
           </div>
 
