@@ -77,16 +77,10 @@ function Formulario() {
       const sanitizedEmail = sanitizeInput(email.trim());
       const sanitizedPassword = sanitizeInput(password.trim());
 
-      // const res = await axios.post(`${API_URL}login`, {
-      //   correo: sanitizedEmail,
-      //   password: sanitizedPassword,
-      // });
-
-      const res = await axios.post('/api/register', {
+      const res = await axios.post(`${API_URL}login`, {
         correo: sanitizedEmail,
         password: sanitizedPassword,
       });
-      
       
 
       const token = res.data.token ?? res.data.access_token;
