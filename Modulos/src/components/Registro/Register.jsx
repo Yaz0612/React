@@ -179,9 +179,15 @@ function Register() {
                   showConfirmPassword ? "bi-eye-slash" : "bi-eye"
                 }`}
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    setShowConfirmPassword(!showConfirmPassword);
+                  }
+                }}
                 role="button"
+                tabIndex="0"
                 aria-label="Mostrar u ocultar confirmación de contraseña"
-              ></i>
+              />
             </div>
             <p className="error-message">{passwordError || "\u00A0"}</p>
           </div>
