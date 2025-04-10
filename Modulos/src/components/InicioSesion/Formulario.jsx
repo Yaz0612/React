@@ -81,10 +81,12 @@ function Formulario() {
       //   correo: sanitizedEmail,
       //   password: sanitizedPassword,
       // });
-      const res = await axios.post('../../utils/register', {
+
+      const res = await axios.post('/api/register', {
         correo: sanitizedEmail,
         password: sanitizedPassword,
       });
+      
       
 
       const token = res.data.token ?? res.data.access_token;
