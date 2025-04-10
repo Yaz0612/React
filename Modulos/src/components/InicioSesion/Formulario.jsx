@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import "./Formulario.css";
 import CustomAlert from "../Alertas/CustomAlert";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import { handler } from "../../utils/register";
 
 function Formulario() {
   const [email, setEmail] = useState("");
@@ -82,7 +81,11 @@ function Formulario() {
       //   correo: sanitizedEmail,
       //   password: sanitizedPassword,
       // });
-      const res = await axios.post('/api/register', datos);
+      const res = await axios.post('../../utils/register', {
+        correo: sanitizedEmail,
+        password: sanitizedPassword,
+      });
+      
 
       const token = res.data.token ?? res.data.access_token;
 
