@@ -8,7 +8,7 @@ import FormularioEmpleados from "./components/RH/FormularioEmpleado";
 import EditEmpleado from "./components/RH/EditEmpleado";
 import PrivateRoute from "./components/Auth/PrivateRoute";
 import "./App.css";
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import { SpeedInsights } from "@vercel/speed-insights/react";
 
 function App() {
   return (
@@ -61,6 +61,7 @@ function App() {
             }
           />
         </Routes>
+        <SpeedInsights />
       </div>
     </Router>
   );
