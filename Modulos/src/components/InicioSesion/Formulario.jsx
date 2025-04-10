@@ -22,14 +22,14 @@ function Formulario() {
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");
-    const isValidJWT = /^[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+$/.test(token);
-  
+    const isValidJWT = /^[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+$/.test(
+      token
+    );
+
     if (token && isValidJWT) {
-      sessionStorage.clear(); 
+      sessionStorage.clear();
     }
   }, []);
-  
-  
 
   const sanitizeInput = (input) => {
     return input
@@ -157,9 +157,15 @@ function Formulario() {
               <i
                 className={`bi ${showPassword ? "bi-eye-slash" : "bi-eye"}`}
                 onClick={() => setShowPassword(!showPassword)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    setShowPassword(!showPassword);
+                  }
+                }}
                 role="button"
                 aria-label="Mostrar u ocultar contraseña"
-              ></i>
+                tabIndex="0"
+              />
             </div>
           </div>
           <button
