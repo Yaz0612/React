@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "./Formulario.css";
 import CustomAlert from "../Alertas/CustomAlert";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import { handler } from "../../utils/register";
 
 function Formulario() {
   const [email, setEmail] = useState("");
